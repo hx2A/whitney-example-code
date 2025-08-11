@@ -19,6 +19,9 @@ void main() {
   ivec2 floorCoord = ivec2(floor(vertTexCoord.st * vec2(texSize - 1)));
   ivec2 ceilCoord = ivec2(ceil(vertTexCoord.st * vec2(texSize - 1)));
 
+  // fetch the four texels surrounding the pixel
+  // for each, find the index value and look up the color in the palette.
+
   vec4 cUL = texelFetch(img, ivec2(floorCoord.x, floorCoord.y), 0);
   int indexUL = int(round((
     (int(channelNum == 0) * cUL.r) + (int(channelNum == 1) * cUL.g) + 
@@ -47,6 +50,9 @@ void main() {
   ) * 255.0));
   vec4 colorLR = vec4(reds[indexLR] / 255.0, greens[indexLR] / 255.0, blues[indexLR] / 255.0, 1.0);
 
+  // interpolate (bilinear) between the four texels to get the final color
+  // basically, figure out where vertTexCoord.xy is in relation to the four texels
+  // and mix the colors accordingly.
   // https://www.reedbeta.com/blog/texture-gathers-and-coordinate-precision/
   vec2 weight = fract(vertTexCoord.xy * vec2(texSize - 1));
 

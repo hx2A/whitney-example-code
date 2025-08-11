@@ -105,7 +105,9 @@ public class IndexedPlayer {
       return;
     }
 
+    // find current image index
     index = (int) Math.floor((t % (sequenceSize / frameRate)) * frameRate);
+    // just to be safe...
     index = Math.min(index, sequenceSize - 1);
   }
 
@@ -126,19 +128,27 @@ public class IndexedPlayer {
     g.shader(shader);
     g.noStroke();
 
+    // find the image and color channel that contains the
+    // data for the desired image
     int channelNum = (int) (index % 4);
     PImage img = images.get((int) (index / 4));
     ColorLUT colorLUT = colorLUTs.get(index);
 
+    // set image and channel number
     if (img != shaderSetImage) {
       shader.set("img", img);
       shaderSetImage = img;
     }
     shader.set("channelNum", (int) channelNum);
+
+    // set the color palette
     shader.set("reds", colorLUT.r);
     shader.set("greens", colorLUT.g);
     shader.set("blues", colorLUT.b);
+    // if you want to fade out the image
     shader.set("fadeAlpha", 1.0f);
+    
+    // draw rectangle with shader applied
     g.rect(0, 0, img.width, img.height);
     g.resetShader();
 
