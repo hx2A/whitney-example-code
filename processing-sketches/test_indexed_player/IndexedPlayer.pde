@@ -39,6 +39,9 @@ public class IndexedPlayer {
   }
 
   public void initialize() {
+    // load compressed image data
+    // do this in a thread to avoid blocking caller
+
     Thread t = new Thread() {
       public void run() {
         if (!imageDir.exists()) {
