@@ -53,4 +53,56 @@ Open and run the Processing Sketches in [processing-sketches](processing-sketche
 
 ## State Management
 
-(insert State Management description)
+The River is a Circle (2025) and The Earth Eaters (2025) both involve complex interactions between different parts of the code. In particular, some events in The River is a Circle (2025) are triggered by rules that could combine the current weather, tides, time of day, or season. Internally there is a State Manager that keeps track of state and evaluates state expressions. All components in the software can connect to the same State Manager to coordinate activities. All components in the software can set state values that are later consumed by other software components. This coordination vastly simplifies the code and makes it easier to maintain.
+
+A specific example of how this is used in The River is a Circle (2025) is with the weather. One component in the work is responsible for processing weather data. It sets weather states with the State Manager to communicate if it is raining or snowing. Other components in the work will check in with the State Manager to evaluate relevant boolean expressions and may take action based on the results of a boolean expression. For example, a certain actor may only appear on the screen during the summer at nighttime when it is not raining.
+
+### States
+
+The State Manager maintains the true and false values of named states. You define the state by first setting the state to `true` or `false`. Any state that is unknown the the State Manager is assumed to be false.
+
+```java
+StateManager stateManager = StateManager.getInstance();
+
+stateManager.setState("hot", true);
+stateManager.setState("cold", false);
+stateManager.setState("raining", false);
+stateManager.setState("snowing", false);
+```
+
+A valid state name can contain any alphanumeric character or underscores.
+
+### Boolean Expressions
+
+Boolean expressions are statements that the State Manager will evaluate to true or false. The expressions use state names and the boolean operators `AND`, `OR`, `XOR`, and `NOT`. You may also use parentheses.
+
+Below are some possible boolean expressions and what they evaluate to, given the above statements.
+
+| Expression                       | Value |
+| -------------------------------- | ----- |
+| hot AND raining                  | false |
+| hot OR cold                      | true  |
+| hot AND (raining OR snowing)     | false |
+| NOT hot AND (raining OR snowing) | false |
+| hot XOR raining                  | true  |
+| cold OR sleet                    | false |
+
+### Builtin Time States
+
+Much of the value of the State Manager comes from the builtin time states. The builtin time states are:
+
+* `daytime`: true between sunrise and sunset
+* `nighttime`: true between sunset and the next day's sunrise
+* `january`, `february`, `march`, ..., `december`: true if the current date falls within the given month
+* `august11`, `august12`, `august13`, etc: true when the current date is the given month and day
+* `monday`, `tuesday`, `wednesday`, ..., `sunday`: true when the current date falls on the given day of the week
+* `summer`, `fall`, `winter`, `spring`: true when the current season falls in the given season.
+* `summer_solstice`, `winter_solstice`, `vernal_equinox`, `autumnal_equinox`: true when the current date is on a solstice or equinox
+* `hour0`, ..., `hour22`, `hour23`: true when the current hour of the day is equal to the given hour
+* `hour13_22`: true when the current hour of the day is between the two given hours
+
+These can be combined with each other to form complex boolean expressions.
+
+### Test Sketch
+
+Open and run the test state manager Processing Sketch in [processing-sketches](processing-sketches) using the Processing Development Environment (PDE). Look at the output in the console for the results of the boolean expressions. Experiment by adding new state expressions and see if you can figure out if they are true or false.
