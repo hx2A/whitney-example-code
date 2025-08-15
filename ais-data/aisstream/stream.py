@@ -5,14 +5,15 @@ from pathlib import Path
 
 import websockets
 from pandas import Timestamp
-from py5 import Py5Vector
 
 from .state import AISDataState, load_vessel_codes
+from .vector import Vector
 
 ###############################################################################
 # Preliminaries
 ###############################################################################
 
+# Make the bounding box larger than your area of interest
 UL_BOUNDING_BOX = 40.8, -74.06
 LR_BOUNDING_BOX = 40.7, -73.98
 BOUNDING_BOX = [UL_BOUNDING_BOX, LR_BOUNDING_BOX]
@@ -29,7 +30,7 @@ LONGITUDE_DEGREES_TO_METERS = 84_465
 
 
 def get_coordinates(lat, lon):
-    return Py5Vector(
+    return Vector(
         (lon - BOUNDING_BOX_CENTER[1]) * LONGITUDE_DEGREES_TO_METERS,
         (lat - BOUNDING_BOX_CENTER[0]) * LATITUDE_DEGREES_TO_METERS,
     )
@@ -91,7 +92,9 @@ class AISStream:
         ) as websocket:
             subscribe_message = {
                 "APIKey": self.api_key,
+                # filter by bounding box
                 "BoundingBoxes": [BOUNDING_BOX],
+                # filter by message types
                 "FilterMessageTypes": [
                     "PositionReport",
                     "StandardClassBPositionReport",
@@ -108,6 +111,7 @@ class AISStream:
                     if not self.keep_running:
                         break
 
+                    # parse the incoming message
                     message = json.loads(message_json)
                     message_type = message["MessageType"]
                     metadata = message["MetaData"]
@@ -146,5 +150,7 @@ class AISStream:
                             message_contents[message_type],
                         )
                 except Exception as e:
+                    logging.exception(f"Exception {e} thrown on message {message_json}")
+                    logging.log(logging.CRITICAL, "continuing execution...")
                     logging.exception(f"Exception {e} thrown on message {message_json}")
                     logging.log(logging.CRITICAL, "continuing execution...")

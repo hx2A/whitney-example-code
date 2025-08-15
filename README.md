@@ -131,7 +131,13 @@ Here are resources that will be helpful to you as you work with AIS data and wri
 
 ### Run Example Code
 
-The example code is written in Python. You'll need to install the Python libraries websockets, py5, and Pandas. Add your API key to the file `ais-data/main.py`.
+The example code is written in Python. You'll need to install the Python libraries websockets, numpy, and Pandas.
+
+```bash
+pip install websockets numpy pandas
+```
+
+Add your API key to the file `ais-data/main.py` before running it.
 
 ```bash
 python ais-data/main.py
@@ -149,3 +155,8 @@ Reports static and position data
 
 Interprets static and position data
 Data classes, use current_position() and future_position() methods for projected positions
+
+### Understanding the Data
+
+Messages logged to data directory
+Need to study the data, then use what you learn in the state.py code

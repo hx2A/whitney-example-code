@@ -5,7 +5,9 @@ from datetime import datetime
 from threading import Thread
 
 import numpy as np
-from py5 import Py5Vector
+from pandas import Timestamp
+
+from .vector import Vector
 
 ###############################################################################
 # Vessel Code Data
@@ -87,8 +89,8 @@ class ShipInfo:
 @dataclass
 class PositionReport:
     user_id: int
-    coordinates: Py5Vector
-    velocity: Py5Vector
+    coordinates: Vector
+    velocity: Vector
     cog: float
     sog: float
     navigational_status: int
@@ -111,7 +113,7 @@ class PositionReport:
         else:
             heading, sog = 0, 0
 
-        velocity = Py5Vector.from_heading(np.radians(heading))
+        velocity = Vector.from_heading(np.radians(heading))
         velocity.set_mag(sog * 0.514444)
 
         return PositionReport(
@@ -124,10 +126,10 @@ class PositionReport:
             timestamp=timestamp,
         )
 
-    def current_position(self, t) -> Py5Vector:
+    def current_position(self, t) -> Vector:
         return self.coordinates + self.velocity * (t - self.timestamp)
 
-    def future_position(self, t, offset) -> Py5Vector:
+    def future_position(self, t, offset) -> Vector:
         return self.coordinates + self.velocity * (t - self.timestamp + offset)
 
     @property
@@ -153,6 +155,7 @@ class AISDataState(Thread):
 
     def report_static_data(self, timestamp, ship_static_data):
         user_id = ship_static_data["UserID"]
+        # Both MessageID 5 and 24 can contain static data but are structured differently
         if user_id not in self.static_data:
             if ship_static_data["MessageID"] == 5:
                 self.static_data[user_id] = ShipInfo.parse_ship_static_data(
@@ -179,14 +182,16 @@ class AISDataState(Thread):
     def run(self):
         logging.log(logging.INFO, "Starting AIS data state thread")
         while self.keep_running:
-            self.update_viewable_ships()
+            self.process_ship_data()
             time.sleep(10)
         logging.log(logging.INFO, "Stopping AIS data state thread")
 
-    def update_viewable_ships(self):
+    def process_ship_data(self):
+        now = Timestamp.now("UTC").value / 1e9
+
         for user_id, position_data in self.position_data.items():
             if position_data.moving:
-                # ship is moving
+                # ship is moving, better to ignore stationary ships
                 ship_info = self.static_data.get(user_id)
 
                 if not ship_info:
@@ -196,4 +201,10 @@ class AISDataState(Thread):
                     )
                     continue
 
-                print(ship_info)
+                current_position = position_data.current_position(now)
+
+                # Print ship info and current position
+                # You'll want to expand this to do something useful with the data
+                # Use the current position to see if the ship is within your area of interest
+                logging.log(logging.INFO, ship_info)
+                logging.log(logging.INFO, current_position)
