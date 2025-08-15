@@ -1,0 +1,84 @@
+AISVesselCode|VesselGroup|AISShipAndCargoClassification
+0|N/A|Not available or no ship
+20|Other|Wing in ground (WIG)
+21|Tug Tow|Wing in ground (WIG)
+22|Tug Tow|Wing in ground (WIG)
+23|Other|Wing in ground (WIG)
+24|Other|Wing in ground (WIG)
+25|Other|Wing in ground (WIG)
+26|Other|Wing in ground (WIG)
+27|Other|Wing in ground (WIG)
+28|Other|Wing in ground (WIG)
+29|Other|Wing in ground (WIG)
+30|Fishing|Fishing
+31|Tug Tow|Towing
+32|Tug Tow|Towing: length exceeds 200m or breadth exceeds 25m
+33|Other|Dredging or underwater operations
+34|Other|Diving operations
+35|Military|Military operations
+36|Pleasure Craft/Sailing|Sailing
+37|Pleasure Craft/Sailing|Pleasure Craft
+38|Other|Reserved
+39|Other|Reserved
+40|Other|High speed craft (HSC)
+41|Other|High speed craft (HSC)
+42|Other|High speed craft (HSC)
+43|Other|High speed craft (HSC)
+44|Other|High speed craft (HSC)
+45|Other|High speed craft (HSC)
+46|Other|High speed craft (HSC)
+47|Other|High speed craft (HSC)
+48|Other|High speed craft (HSC)
+49|Other|High speed craft (HSC)
+50|Other|Pilot Vessel
+51|Other|Search and Rescue Vessel
+52|Tug Tow|Tug
+53|Other|Port Tender
+54|Other|Anti-pollution equipment
+55|Other|Law Enforcement
+# 56|Other|Spare - for assignment to local vessel
+# 57|Other|Spare - for assignment to local vessel
+56|Tug Tow|Tug
+57|Tug Tow|Tug
+58|Other|Medical Transport
+59|Other|Ship according to RR Resolution No. 18
+60|Passenger|Passenger, all ships of this type
+61|Passenger|Passenger, hazardous category A
+62|Passenger|Passenger, hazardous category B
+63|Passenger|Passenger, hazardous category C
+64|Passenger|Passenger, hazardous category D
+65|Passenger|Passenger, reserved for future use
+66|Passenger|Passenger, reserved for future use
+67|Passenger|Passenger, reserved for future use
+68|Passenger|Passenger, reserved for future use
+69|Passenger|Passenger, no additional information
+70|Cargo|Cargo, all ships of this type
+71|Cargo|Cargo, hazardous category A
+72|Cargo|Cargo, hazardous category B
+73|Cargo|Cargo, hazardous category C
+74|Cargo|Cargo, hazardous category D
+75|Cargo|Cargo, reserved for future use
+76|Cargo|Cargo, reserved for future use
+77|Cargo|Cargo, reserved for future use
+78|Cargo|Cargo, reserved for future use
+79|Cargo|Cargo, no additional information
+80|Tanker|Tanker, all ships of this type
+81|Tanker|Tanker, hazardous category A
+82|Tanker|Tanker, hazardous category B
+83|Tanker|Tanker, hazardous category C
+84|Tanker|Tanker, hazardous category D
+85|Tanker|Tanker, reserved for future use
+86|Tanker|Tanker, reserved for future use
+87|Tanker|Tanker, reserved for future use
+88|Tanker|Tanker, reserved for future use
+89|Tanker|Tanker, no additional information
+90|Other|Other Type, all ships of this type
+91|Other|Other Type, hazardous category A
+92|Other|Other Type, hazardous category B
+93|Other|Other Type, hazardous category C
+94|Other|Other Type, hazardous category D
+95|Other|Other Type, reserved for future use
+96|Other|Other Type, reserved for future use
+97|Other|Other Type, reserved for future use
+98|Other|Other Type, reserved for future use
+99|Other|Other Type, no additional information
