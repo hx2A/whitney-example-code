@@ -119,15 +119,7 @@ The River is a Circle (2025) monitors marine traffic in the immediate vicinity o
 
 ### Data Source
 
-The work uses data from the free real-time data source [aisstream.io/](https://aisstream.io/) to obtain [AIS data](https://en.wikipedia.org/wiki/Automatic_identification_system). To use this data and the example code, you'll need to sign up for an account to get an API key.
-
-### Data Resources
-
-Here are resources that will be helpful to you as you work with AIS data and write your code.
-
-* [aisstream.io documentation](https://aisstream.io/documentation)
-* [US Coast Guard AIS Data documentation](https://www.navcen.uscg.gov/ais-messages)
-* [Vessel Finder Map](https://www.vesselfinder.com/)
+The work uses data from the free real-time data source [aisstream.io/](https://aisstream.io/) to obtain [AIS data](https://en.wikipedia.org/wiki/Automatic_identification_system). To use this data and the example code, you'll need to sign up for an account to get an API key. The API key is a 40 character code that you must place in the file `ais-data/main.py`.
 
 ### Run Example Code
 
@@ -142,6 +134,20 @@ Add your API key to the file `ais-data/main.py` before running it.
 ```bash
 python ais-data/main.py
 ```
+
+### Understanding the Data
+
+AIS data is transmitted (or is supposed to be transmitted) from all marine ships. The intent is for ships to communicate with their neighbors to share information about their respective positions, velocities, and ship types. This information is communicated through several kinds of messages, or message types.
+
+[The full list of message types](https://www.navcen.uscg.gov/ais-messages) is extensive. Some of the message types are rarely used. The most informative messages are static data and position data, which should be combined to get a complete picture of ship traffic.
+
+#### Static Data
+
+2 static data types, what they contain
+
+#### Position Data
+
+2 position reports, fairly similar
 
 ### Understanding the Code
 
@@ -160,3 +166,11 @@ Data classes, use current_position() and future_position() methods for projected
 
 Messages logged to data directory
 Need to study the data, then use what you learn in the state.py code
+
+### Data Resources
+
+Here are resources that will be helpful to you as you work with AIS data and write your code.
+
+* [aisstream.io documentation](https://aisstream.io/documentation)
+* [US Coast Guard AIS Data documentation](https://www.navcen.uscg.gov/ais-messages)
+* [Vessel Finder Map](https://www.vesselfinder.com/)
