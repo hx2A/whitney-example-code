@@ -53,6 +53,10 @@ Open and run the Processing Sketches in [processing-sketches](processing-sketche
 
 You'll observe the shaders are quite simple. That's actually the point. The interesting part is the Python code. The goal of all of this is to use Python to reorient the image data so that a simple, fast, and efficient shader can render the images while using as little memory as possible. Arcane shader code isn't helpful here.
 
+### Images with Alpha Channels
+
+These algorithms do not support images with transparent pixels. It can be expanded to support transparency, and in fact does so, successfully, in both The River is a Circle and The Earth Eaters. The Python code for that is quite a bit more complicated. If there's sufficient interest I will update this repository to add an explanation of that as well.
+
 ## State Management
 
 The River is a Circle (2025) and The Earth Eaters (2025) both involve complex interactions between different parts of the code. In particular, some events in The River is a Circle (2025) are triggered by rules that could combine the current weather, tides, time of day, or season. Internally there is a State Manager that keeps track of state and evaluates state expressions. All components in the software can connect to the same State Manager to coordinate activities. All components in the software can set state values that are later consumed by other software components. This coordination vastly simplifies the code and makes it easier to maintain.
