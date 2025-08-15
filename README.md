@@ -16,7 +16,7 @@ The main idea is to pre-process the source images to compress multiple source im
 
 Necessity is the mother of invention.
 
-These algorithms meet our needs but they might not be useful for you. Most importantly, all of this is a needless complication if you are not facing memory constraints from an image-heavy Processing sketch. And the compression algorithms may be far from lossless for your situation. Please look at this as an example of creative problem solving and also the possibility of using an image's RGBA color channels as four data channels that are interpreted by a shader. If you understand the concepts, you may be able to design a different algorithm that works well for you.
+These algorithms meet our needs but they might not be useful for you. Most importantly, all of this is a needless complication if you are not facing memory constraints from an image-heavy Processing sketch. And the compression algorithms may be far from lossless for your situation. Please look at this as an example of creative problem solving and also consider the possibility of using an image's RGBA color channels as four data channels that are interpreted by a shader. If you understand the concepts, you may be able to design a different algorithm that works well for you.
 
 ### Grayscale Images
 
@@ -50,6 +50,8 @@ The compressed images are written to the appropriate `data` directories in the [
 ### Test Sketches
 
 Open and run the Processing Sketches in [processing-sketches](processing-sketches) using the Processing Development Environment (PDE). For both you'll see a player class that manages the compressed image data and the shader. Detailed information about how the players work is contained in the source code.
+
+You'll observe the shaders are quite simple. That's actually the point. The interesting part is the Python code. The goal of all of this is to use Python to reorient the image data so that a simple, fast, and efficient shader can render the images while using as little memory as possible. Arcane shader code isn't helpful here.
 
 ## State Management
 
