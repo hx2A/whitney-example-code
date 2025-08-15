@@ -112,3 +112,40 @@ These can be combined with each other to form complex boolean expressions.
 ### Test Sketch
 
 Open and run the test state manager Processing Sketch in [processing-sketches](processing-sketches) using the Processing Development Environment (PDE). Look at the output in the console for the results of the boolean expressions. Experiment by adding new state expressions and see if you can figure out if they are true or false.
+
+## AIS Data
+
+The River is a Circle (2025) monitors marine traffic in the immediate vicinity of The Whitney museum. When ships traveling along the Hudson River are viewable from The Whitney's terrace, the work will detect their presence and respond by displaying related animations on the screen.
+
+### Data Source
+
+The work uses data from the free real-time data source [aisstream.io/](https://aisstream.io/) to obtain [AIS data](https://en.wikipedia.org/wiki/Automatic_identification_system). To use this data and the example code, you'll need to sign up for an account to get an API key.
+
+### Data Resources
+
+Here are resources that will be helpful to you as you work with AIS data and write your code.
+
+* [aisstream.io documentation](https://aisstream.io/documentation)
+* [US Coast Guard AIS Data documentation](https://www.navcen.uscg.gov/ais-messages)
+* [Vessel Finder Map](https://www.vesselfinder.com/)
+
+### Run Example Code
+
+The example code is written in Python. You'll need to install the Python libraries websockets, py5, and Pandas. Add your API key to the file `ais-data/main.py`.
+
+```bash
+python ais-data/main.py
+```
+
+### Understanding the Code
+
+#### stream.py
+
+Subscribes to messages
+Uses websockets, missed messages are lost
+Reports static and position data
+
+#### state.py
+
+Interprets static and position data
+Data classes, use current_position() and future_position() methods for projected positions
