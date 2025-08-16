@@ -129,11 +129,15 @@ The example code is written in Python. You'll need to install the Python librari
 pip install websockets numpy pandas
 ```
 
-Add your API key to the file `ais-data/main.py` before running it.
+Add your API key to the file `ais-data/main.py` before running it. Update the `DATA_DIR` directory to a location for AIS message logs.
 
 ```bash
 python ais-data/main.py
 ```
+
+Initially you will see log messages about unknown ships; it will take a few minutes for the code to receive enough messages for it to be able to pair static data and position data together and display meaningful statements.
+
+Every message received will be saved to the `DATA_DIR` directory. You can and should write Python code to analyze these json data files and figure out how to best filter and process the data to achieve your goals.
 
 ### Understanding the Data
 
@@ -143,11 +147,15 @@ AIS data is transmitted (or is supposed to be transmitted) from all marine ships
 
 #### Static Data
 
-2 static data types, what they contain
+There are two static message types: [ShipStaticData](https://www.navcen.uscg.gov/ais-class-a-static-voyage-message-5) messages and [StaticDataReport](https://www.navcen.uscg.gov/ais-class-b-reports) messages (scroll to the bottom of the page to see information about StaticDataReport messages). These messages can contain information about the ship type, size, and ship name. Be aware that sometimes these fields will be missing or the information will not match what you think it should be based on direct observation of the actual ship. Managing erroneous or misleading data is part of the experience of working with this kinds of data. The class B messages are typically used by smaller ships, and those ships are more likely to transmit useless information.
+
+Both of these static messages transmitted once every 6 minutes. Because they are are transmitted once every 6 minutes, you will need to wait that much time before you will have this information for all of the ships in your desired area. You will also need to wait as new ships move into your desired area.
 
 #### Position Data
 
-2 position reports, fairly similar
+There are two ship position message types: [PositionReport](https://www.navcen.uscg.gov/ais-class-a-reports) messages and [StandardClassBPositionReport](https://www.navcen.uscg.gov/ais-class-b-reports) messages. These messages contain information about the ships location, heading, and speed. The data for these messages is typically accurate for ships that are underway (moving). The data may be inconsistent for ships that are not underway. To manage this I filtered out ships with speeds below a low threshold. Note that ships that are not underway can still move as the water around them moves.
+
+The transmission time for these messages is variable. To get the current position of any ship, the best approach is to store the position data timestamps and estimate using the last position report's location, speed, heading, and the current timestamp.
 
 ### Understanding the Code
 

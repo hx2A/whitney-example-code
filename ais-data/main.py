@@ -3,15 +3,16 @@ from pathlib import Path
 
 from aisstream.stream import AISStream
 
+logging.basicConfig(level=logging.INFO)
+
+# INSERT YOUR API KEY HERE
 API_KEY = "<INSERT API KEY HERE>"
 
-VESSEL_CODES = Path(__file__).parent / "vessel-codes.txt"
-
-DATA_DIR = Path("/tmp/ais_data")
+# Directory to store recorded data
+DATA_DIR = Path("data-logs")
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-
-logging.basicConfig(level=logging.INFO)
+VESSEL_CODES = Path(__file__).parent / "vessel-codes.txt"
 
 
 def main():
