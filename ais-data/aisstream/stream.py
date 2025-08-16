@@ -152,5 +152,3 @@ class AISStream:
                 except Exception as e:
                     logging.exception(f"Exception {e} thrown on message {message_json}")
                     logging.log(logging.CRITICAL, "continuing execution...")
-                    logging.exception(f"Exception {e} thrown on message {message_json}")
-                    logging.log(logging.CRITICAL, "continuing execution...")
