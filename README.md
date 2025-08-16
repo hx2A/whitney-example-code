@@ -161,19 +161,23 @@ The transmission time for these messages is variable. To get the current positio
 
 #### stream.py
 
-Subscribes to messages
-Uses websockets, missed messages are lost
-Reports static and position data
+The `stream.py` file contains the code that subscribes to the data source [aisstream.io/](https://aisstream.io/).
+
+You will need to edit this file to set the subscription's bounding box. The bounding box limits the messages to ships within a specific region specified by latitude and longitude. Without this, your code will need to process several thousand messages a second. You should make the bounding box larger than the area you are actually interested in so that you will always have both static data and position data for all of the ships in your area of interest.
+
+After updating the latitude and longitude, update the `LATITUDE_DEGREES_TO_METERS` and `LONGITUDE_DEGREES_TO_METERS` values with a [latitude and longitude distance calculator](https://www.starpath.com/calc/Distance%20Calculators/degree.html) to enable the code to calculate distances in meters. The code will be able to calculate coordinates in meters relative to the `BOUNDING_BOX_CENTER`. You should modify this code if those calculations do not meet your needs.
+
+The `record_ais_stream()` method in the `AISStream` class will subscribe to the websocket and filter by message type. Comment out that filter if you would like to see all of the messages transmitted by the ships.
+
+All of the received messages are passed to a `AISDataState` instance that will analyze the current ship data at a predefined interval.
 
 #### state.py
 
-Interprets static and position data
-Data classes, use current_position() and future_position() methods for projected positions
+The `state.py` file contains code that receives messages from the `AISStream` class and transforms the data into a more manageable form. It will interpret the static and position messages and allow you to pair them together.
 
-### Understanding the Data
+The two data classes `ShipInfo` and `PositionReport` store the data. The `PositionReport` data class has two methods `current_position()` and `future_position()` needed to calculate current or future ship position. AIS data timestamps are always in the UTC time zone.
 
-Messages logged to data directory
-Need to study the data, then use what you learn in the state.py code
+Update the `process_ship_data()` method to perform your desired data processing. You will first want to filter for your area of interest if you set the bounding box to a larger region. You will need to study the data using the recorded messages to understand how to best process the data to achieve your goals.
 
 ### Data Resources
 
