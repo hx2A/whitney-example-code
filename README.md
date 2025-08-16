@@ -6,11 +6,11 @@ These two works use a custom software framework built on top of the open source 
 
 ## Image Compression and Decompression
 
-The River is a Circle (2025) and The Earth Eaters (2025) are both image-heavy works with well over 100K images between the two of them. Some of the image sequences are quite large and would consume several GBs of memory each. This causes a serious problem because the computer's RAM, VRAM, and the Java Virtual Machine's heap size are all limited. It is critical to stay well within memory limits to avoid garbage collection pauses. Memory issues and garbage collection pauses cause visual stutters or brief freezes in the work. Much effort has gone into making sure visual stutters never happen.
+The River is a Circle (2025) and The Earth Eaters (2025) are both image-heavy works with well over 100K images between the two of them. Some of the image sequences are quite large and would consume several GBs of memory each. This causes a serious problem because the computer's RAM, VRAM, and the Java Virtual Machine's heap size are all limited. It is critical to stay well within memory limits to avoid garbage collection pauses. Memory issues and garbage collection pauses cause visual stutters or brief freezes in the work. Much effort has gone into ensuring visual stutters never happen.
 
 The River is a Circle (2025) runs on a small Intel NUC computer with 32 GB of RAM. The Earth Eaters (2025) runs on a larger NUC computer with 64 GB of RAM and a NVidia 4060 GPU with only 8 GB of VRAM.
 
-We came up with clever ideas for how to get the software to fit within these memory constraints. What we came up with are bespoke image compression algorithms that are either lossless or visually indistinguishable from the original images. These are not general purpose image compression algorithms, but they are algorithms that are precisely effective for our needs.
+We devised clever ideas for how to get the software to fit within these memory constraints. Our solutions are bespoke image compression algorithms that are either lossless or visually indistinguishable from the original images. These are not general purpose image compression algorithms, but they are algorithms that are precisely effective for our needs.
 
 The main idea is to pre-process the source images to compress multiple source images into a single image that can later be used to display all of the source images. We use Python code to generate these compressed images that will need a custom shader to display correctly. This is effectively an on-GPU image decompression algorithm. If we compress four images into one, we can reduce memory usage by 75%.
 
@@ -55,7 +55,7 @@ You'll observe the shaders are quite simple. That's actually the point. The inte
 
 ### Images with Alpha Channels
 
-These algorithms do not support images with transparent pixels. It can be expanded to support transparency, and in fact does so, successfully, in both The River is a Circle and The Earth Eaters. The Python code for that is quite a bit more complicated. If there's sufficient interest I will update this repository to add an explanation of that as well.
+These algorithms do not support images with transparent pixels. It can be expanded to support transparency, and in fact does so, successfully, in both The River is a Circle and The Earth Eaters. The Python code for that is quite a bit more complicated. If there's sufficient interest I will update this repository to include that as well.
 
 ## State Management
 
@@ -82,7 +82,7 @@ A valid state name can contain any alphanumeric character or underscores.
 
 Boolean expressions are statements that the State Manager will evaluate to true or false. The expressions use state names and the boolean operators `AND`, `OR`, `XOR`, and `NOT`. You may also use parentheses.
 
-Below are some possible boolean expressions and what they evaluate to, given the above statements.
+Below are some possible boolean expressions and what they evaluate to, given the initial states set above.
 
 | Expression                       | Value |
 | -------------------------------- | ----- |
@@ -106,6 +106,7 @@ Much of the value of the State Manager comes from the builtin time states. The b
 * `summer_solstice`, `winter_solstice`, `vernal_equinox`, `autumnal_equinox`: true when the current date is on a solstice or equinox
 * `hour0`, ..., `hour22`, `hour23`: true when the current hour of the day is equal to the given hour
 * `hour13_22`: true when the current hour of the day is between the two given hours
+* `hour22_04`: true when the current hour is between the given hours of two days
 
 These can be combined with each other to form complex boolean expressions.
 
@@ -119,7 +120,7 @@ The River is a Circle (2025) monitors marine traffic in the immediate vicinity o
 
 ### Data Source
 
-The work uses data from the free real-time data source [aisstream.io/](https://aisstream.io/) to obtain [AIS data](https://en.wikipedia.org/wiki/Automatic_identification_system). To use this data and the example code, you'll need to sign up for an account to get an API key. The API key is a 40 character code that you must place in the file `ais-data/main.py`.
+The work uses data from the free real-time data source [aisstream.io](https://aisstream.io/) to obtain [AIS data](https://en.wikipedia.org/wiki/Automatic_identification_system). To use this data and the example code, you'll need to sign up for an account to get an API key. The API key is a 40 character code that you must place in the file `ais-data/main.py`.
 
 ### Run Example Code
 
@@ -153,7 +154,7 @@ Both of these static messages are transmitted once every 6 minutes. Because they
 
 #### Position Data
 
-There are two ship position message types: [PositionReport](https://www.navcen.uscg.gov/ais-class-a-reports) messages and [StandardClassBPositionReport](https://www.navcen.uscg.gov/ais-class-b-reports) messages. These messages contain information about each ship's location, heading, and speed. The data for these messages is typically accurate for ships that are underway (moving). The data may be inconsistent for ships that are not underway. To manage this I filtered out ships with speeds below a low threshold. Note that ships that are not underway can still move as the water around them moves.
+There are two ship position message types: [PositionReport](https://www.navcen.uscg.gov/ais-class-a-reports) messages and [StandardClassBPositionReport](https://www.navcen.uscg.gov/ais-class-b-reports) messages. These messages contain information about each ship's location, heading, and speed. The data for these messages is typically accurate for ships that are underway (actively moving). The data may be inconsistent for ships that are not underway. To manage this I filtered out ships with speeds below a low threshold. Note that ships that are not underway can still move as the water around them moves.
 
 The transmission time for these messages is variable. To get the current position of any ship, the best approach is to store the position data timestamps and estimate using the last position report's location, speed, heading, and the current timestamp.
 
@@ -161,7 +162,7 @@ The transmission time for these messages is variable. To get the current positio
 
 #### stream.py
 
-The `stream.py` file contains the code that subscribes to the data source [aisstream.io/](https://aisstream.io/).
+The `stream.py` file contains the code that subscribes to the data source [aisstream.io](https://aisstream.io/).
 
 You will need to edit this file to set the subscription's bounding box. The bounding box limits the messages to ships within a specific region specified by latitude and longitude. Without this, your code will need to process several thousand messages a second. You should make the bounding box larger than the area you are actually interested in so that you will always have both static data and position data for all of the ships in your area of interest.
 
